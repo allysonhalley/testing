@@ -1,0 +1,31 @@
+verson: '3'
+services:
+  web-client:
+    image: web-client
+    stdin_open: true
+    port:
+      - '3000:3000'
+    networks:
+      - mwh-app
+  api-server:
+    image: api-server
+    ports:
+      - '5000:5000'
+    networks:
+      - mwh-app
+    depends_on:
+      - mongo
+  mongo:
+    image: mongo
+    ports:
+      - '27027:27017'
+    networks:
+      - mwh-app
+    volumes:
+      - mongo-data:/data/db
+networks:
+  mwh-app:
+    driver: bridge
+volumes:
+  mongo-data:
+    driver: local
